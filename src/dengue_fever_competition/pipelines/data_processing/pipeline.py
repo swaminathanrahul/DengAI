@@ -1,28 +1,28 @@
 from kedro.pipeline import Pipeline, node, pipeline
 
-from .nodes import create_model_input_table, preprocess_companies, preprocess_shuttles
+from .nodes import _remove_nulls, _encode_features, _sort_dataframe
 
 
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline(
         [
             node(
-                func=preprocess_companies,
-                inputs="companies",
-                outputs="preprocessed_companies",
-                name="preprocess_companies_node",
+                func=_sort_dataframe,
+                inputs=["dengue_features_train", "params:sort_columns"],
+                outputs="dengue_features_train_sorted",
+                name="sort_dataframe"
             ),
             node(
-                func=preprocess_shuttles,
-                inputs="shuttles",
-                outputs="preprocessed_shuttles",
-                name="preprocess_shuttles_node",
+                func=_remove_nulls,
+                inputs=["dengue_features_train_sorted", "params:forwardfills"],
+                outputs="dengue_features_train_without_nulls",
+                name="remove_null_values"
             ),
             node(
-                func=create_model_input_table,
-                inputs=["preprocessed_shuttles", "preprocessed_companies", "reviews"],
-                outputs="model_input_table",
-                name="create_model_input_table_node",
-            ),
+                func=_encode_features,
+                inputs=["dengue_features_train_without_nulls", "params:encoding"],
+                outputs="dengue_features_train_encoded",
+                name="encode_features"
+            )
         ]
     )

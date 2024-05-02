@@ -1,0 +1,12 @@
+sort_columns:
+  - year
+  - weekofyear
+  
+encoding:
+  - city
+
+forwardfills:
+  - 'ndvi_ne'
+  - 'ndvi_nw'
+  - 'ndvi_se'
+  - 'ndvi_sw'
