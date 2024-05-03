@@ -7,9 +7,5 @@ model_options:
 
 hyperparameters:
   max_depth: 5
-  n_estimators: 500
+  n_estimators: 200
   random_state: 42
-
-submission:
-  path: ../../../../data/07_model_output
-  name: submission.csv

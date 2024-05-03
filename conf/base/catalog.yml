@@ -14,6 +14,14 @@ submission_format:
   type: pandas.CSVDataset
   filepath: data/01_raw/submission_format.csv
 
+X:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/X.csv
+
+y:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/y.csv
+
 X_train:
   type: pandas.CSVDataset
   filepath: data/05_model_input/X_train.csv
@@ -29,3 +37,11 @@ y_train:
 y_val:
   type: pandas.CSVDataset
   filepath: data/05_model_input/y_val.csv
+
+df_test:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/df_test.csv
+
+submissions:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/submissions.csv
