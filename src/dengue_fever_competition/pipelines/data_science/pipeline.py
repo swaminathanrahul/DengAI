@@ -7,7 +7,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         [
             node(
                 func=split_data,
-                inputs= ["dengue_features_train_encoded","dengue_labels_train", "params:model_options"],
+                inputs= ["dengue_features_encoded","dengue_labels_train", "params:model_options"],
                 outputs=["X_train", "X_val", "y_train", "y_val"],
                 name="split_data"
              ),
@@ -25,7 +25,7 @@ def create_pipeline(**kwargs) -> Pipeline:
              ),
              node(
                  func=create_submission,
-                 inputs=["regressor", "submission_format", "dengue_features_test", "params:submission"],
+                 inputs=["regressor", "submission_format", "dengue_features_encoded", "params:submission"],
                  outputs=None,
                  name="create_submission"
              )

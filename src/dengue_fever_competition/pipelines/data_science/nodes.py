@@ -6,9 +6,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 import category_encoders as ce
-
-def pass_and_do_nothing():
-    pass
+import pickle
 
 def split_data(df: pd.DataFrame, labels_train: pd.DataFrame, parameters: Dict) -> Tuple:
     """Splits data into features and targets training and test sets.
@@ -19,7 +17,8 @@ def split_data(df: pd.DataFrame, labels_train: pd.DataFrame, parameters: Dict) -
     Returns:
         Split data.
     """
-    X = df.copy()
+    df_train = df.query("source == 'train'").drop(['source'],axis=1)
+    X = df_train.copy()
     y = labels_train.loc[:, parameters["target"]]
 
     X_train, X_val, y_train, y_val = train_test_split(
@@ -45,6 +44,7 @@ def train_model(X_train: pd.DataFrame, y_train: pd.Series, hyperparameters: Dict
         n_jobs=-1
     )
     regressor.fit(X_train, y_train.values.ravel())
+    pickle.dump(regressor, open('../../../../data/06_models/model.pkl','wb'))
     return regressor
 
 
@@ -69,24 +69,15 @@ def evaluate_model(
     logger.info("Model has a mean absolute error of %.3f on val data.", score)
 
 def create_submission(
-        regressor: RandomForestRegressor, submissions_format: pd.DataFrame, dengue_features_test: pd.DataFrame, submission_params: Dict
+        regressor: RandomForestRegressor, submissions_format: pd.DataFrame, df: pd.DataFrame, submission_params: Dict
 ) -> None:
     """
     Something smart
     """
 
-    dengue_features_test = dengue_features_test.drop(['week_start_date'],axis=1)
-    ce_ohe = ce.OneHotEncoder(cols=['city'])
-    dengue_features_test = ce_ohe.fit_transform(dengue_features_test)
+    df_test = df.query("source == 'test'").drop(['source'],axis=1)
 
-    for ndvi in ['ndvi_ne','ndvi_nw','ndvi_se','ndvi_sw']:
-        dengue_features_test[ndvi] = dengue_features_test[ndvi].fillna(method='ffill')
-
-    float_columns = dengue_features_test.select_dtypes('float64').columns
-    for col in float_columns:
-        dengue_features_test[col] = dengue_features_test[col].fillna(dengue_features_test[col].mean())
-
-    submission_predictions = regressor.predict(dengue_features_test)
+    submission_predictions = regressor.predict(df_test)
     submission_predictions = [round(x) for x in submission_predictions]
 
     submissions_format['total_cases'] = submission_predictions
