@@ -1,7 +1,4 @@
-model_options:
-  test_size: 0.2
-  random_state: 42
-  shuffle: False
+split_options:
   target:
     - total_cases
 

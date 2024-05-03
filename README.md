@@ -4,7 +4,7 @@ This repository contains the code and models developed for the [Dengue Predictio
 
 ## Outcomes
 
-- Final submission score: XXXXX
+- Final submission score: 26.1
 - Explored and preprocessed the provided data to extract meaningful features.
 - Implemented and fine-tuned multiple machine learning models, including regression and time series forecasting algorithms.
 - Evaluated model performance using appropriate metrics such as Mean Absolute Error (MAE) to assess accuracy.
