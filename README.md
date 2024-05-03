@@ -1,98 +1,47 @@
-# Dengue Fever Competition
+# Dengue Fever Prediction
 
-## Overview
+This repository contains the code and models developed for the [Dengue Prediction competition](https://www.drivendata.org/competitions/44/dengai-predicting-disease-spread/page/80/) hosted on DrivenData. The goal of this competition is to predict the number of dengue fever cases each week in two cities: San Juan, Puerto Rico, and Iquitos, Peru.
 
-This is your new Kedro project, which was generated using `kedro 0.19.5`.
+## Outcomes
 
-Take a look at the [Kedro documentation](https://docs.kedro.org) to get started.
+- Final submission score: XXXXX
+- Explored and preprocessed the provided data to extract meaningful features.
+- Implemented and fine-tuned multiple machine learning models, including regression and time series forecasting algorithms.
+- Evaluated model performance using appropriate metrics such as Mean Absolute Error (MAE) to assess accuracy.
+- Submitted predictions to the DrivenData platform and achieved competitive results on the leaderboard.
 
-## Rules and guidelines
+## Learnings
 
-In order to get the best out of the template:
+- Importance of feature engineering: Found that incorporating lag features and domain-specific transformations significantly improved model performance.
+- Model selection: Experimented with different algorithms such as Random Forest, Gradient Boosting, and LSTM to identify the most suitable approach for the task.
+- Dealing with imbalanced data: Employed techniques like oversampling and weighted loss functions to address the class imbalance present in the target variable.
+- Collaboration and knowledge sharing: Engaged with the community on forums and leveraged shared insights and strategies to enhance model development and performance.
 
-* Don't remove any lines from the `.gitignore` file we provide
-* Make sure your results can be reproduced by following a [data engineering convention](https://docs.kedro.org/en/stable/faq/faq.html#what-is-data-engineering-convention)
-* Don't commit data to your repository
-* Don't commit any credentials or your local configuration to your repository. Keep all your credentials and local configuration in `conf/local/`
+## Repository Structure
 
-## How to install dependencies
+- data/: Contains the raw and processed datasets used in the project.
+- notebooks/: Jupyter notebooks documenting the data exploration, preprocessing, modeling, and evaluation stages.
+- src/: Python scripts for feature engineering, model training, and evaluation.
+- models/: Saved trained models for future use or deployment.
+- README.md: Overview of the project, outcomes, and learnings (you're here!).
 
-Declare any dependencies in `requirements.txt` for `pip` installation.
+## Requirements
 
-To install them, run:
+- Python 3.12
+- Required packages listed in requirements.txt
 
-```
-pip install -r requirements.txt
-```
+## Getting Started
 
-## How to run your Kedro pipeline
+- Clone this repository: git clone https://github.com/your_username/dengue-prediction.git
+- Install dependencies: pip install -r requirements.
+- Navigate to the notebooks/ directory to explore the project in detail.
+- Refer to the notebooks and scripts for code implementation and model development.
+- For any inquiries or feedback, feel free to reach out to the repository owner.
 
-You can run your Kedro project with:
+## Acknowledgments
 
-```
-kedro run
-```
+- DrivenData for hosting the Dengue Prediction competition.
+- Contributors and participants in the competition for valuable discussions and insights.
+- Open-source libraries and resources utilized in the project.
 
-## How to test your Kedro project
-
-Have a look at the files `src/tests/test_run.py` and `src/tests/pipelines/data_science/test_pipeline.py` for instructions on how to write your tests. Run the tests as follows:
-
-```
-pytest
-```
-
-To configure the coverage threshold, look at the `.coveragerc` file.
-
-## Project dependencies
-
-To see and update the dependency requirements for your project use `requirements.txt`. You can install the project requirements with `pip install -r requirements.txt`.
-
-[Further information about project dependencies](https://docs.kedro.org/en/stable/kedro_project_setup/dependencies.html#project-specific-dependencies)
-
-## How to work with Kedro and notebooks
-
-> Note: Using `kedro jupyter` or `kedro ipython` to run your notebook provides these variables in scope: `catalog`, `context`, `pipelines` and `session`.
->
-> Jupyter, JupyterLab, and IPython are already included in the project requirements by default, so once you have run `pip install -r requirements.txt` you will not need to take any extra steps before you use them.
-
-### Jupyter
-To use Jupyter notebooks in your Kedro project, you need to install Jupyter:
-
-```
-pip install jupyter
-```
-
-After installing Jupyter, you can start a local notebook server:
-
-```
-kedro jupyter notebook
-```
-
-### JupyterLab
-To use JupyterLab, you need to install it:
-
-```
-pip install jupyterlab
-```
-
-You can also start JupyterLab:
-
-```
-kedro jupyter lab
-```
-
-### IPython
-And if you want to run an IPython session:
-
-```
-kedro ipython
-```
-
-### How to ignore notebook output cells in `git`
-To automatically strip out all output cell contents before committing to `git`, you can use tools like [`nbstripout`](https://github.com/kynan/nbstripout). For example, you can add a hook in `.git/config` with `nbstripout --install`. This will run `nbstripout` before anything is committed to `git`.
-
-> *Note:* Your output cells will be retained locally.
-
-## Package your Kedro project
-
-[Further information about building project documentation and packaging your project](https://docs.kedro.org/en/stable/tutorial/package_a_project.html)
+Feel free to customize and expand upon this template as needed to reflect your specific contributions and experiences in the competition!
