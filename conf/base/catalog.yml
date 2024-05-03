@@ -41,19 +41,19 @@
 
 dengue_features_train:
   type: pandas.CSVDataset
-  filepath: data/downloads_drivendata/dengue_features_train.csv
+  filepath: data/01_raw/dengue_features_train.csv
 
 dengue_labels_train:
   type: pandas.CSVDataset
-  filepath: data/downloads_drivendata/dengue_labels_train.csv
+  filepath: data/01_raw/dengue_labels_train.csv
 
 dengue_features_test:
   type: pandas.CSVDataset
-  filepath: data/downloads_drivendata/dengue_features_test.csv
+  filepath: data/01_raw/dengue_features_test.csv
 
 submission_format:
   type: pandas.CSVDataset
-  filepath: data/downloads_drivendata/submission_format.csv
+  filepath: data/01_raw/submission_format.csv
 
 # companies:
 #   type: pandas.CSVDataset

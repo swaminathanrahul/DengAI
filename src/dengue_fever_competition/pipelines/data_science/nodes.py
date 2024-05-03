@@ -10,7 +10,7 @@ import category_encoders as ce
 def pass_and_do_nothing():
     pass
 
-def split_data(df_train: pd.DataFrame, labels_train: pd.Dataframe, parameters: Dict) -> Tuple:
+def split_data(df: pd.DataFrame, labels_train: pd.DataFrame, parameters: Dict) -> Tuple:
     """Splits data into features and targets training and test sets.
 
     Args:
@@ -19,8 +19,8 @@ def split_data(df_train: pd.DataFrame, labels_train: pd.Dataframe, parameters: D
     Returns:
         Split data.
     """
-    X = df_train.copy()
-    y = labels_train[parameters["target"]]
+    X = df.copy()
+    y = labels_train.loc[:, parameters["target"]]
 
     X_train, X_val, y_train, y_val = train_test_split(
         X, y, test_size=parameters["test_size"], random_state=parameters["random_state"], shuffle=parameters["shuffle"]
@@ -44,7 +44,7 @@ def train_model(X_train: pd.DataFrame, y_train: pd.Series, hyperparameters: Dict
         random_state=hyperparameters["random_state"],
         n_jobs=-1
     )
-    regressor.fit(X_train, y_train)
+    regressor.fit(X_train, y_train.values.ravel())
     return regressor
 
 
@@ -74,9 +74,17 @@ def create_submission(
     """
     Something smart
     """
+
     dengue_features_test = dengue_features_test.drop(['week_start_date'],axis=1)
     ce_ohe = ce.OneHotEncoder(cols=['city'])
     dengue_features_test = ce_ohe.fit_transform(dengue_features_test)
+
+    for ndvi in ['ndvi_ne','ndvi_nw','ndvi_se','ndvi_sw']:
+        dengue_features_test[ndvi] = dengue_features_test[ndvi].fillna(method='ffill')
+
+    float_columns = dengue_features_test.select_dtypes('float64').columns
+    for col in float_columns:
+        dengue_features_test[col] = dengue_features_test[col].fillna(dengue_features_test[col].mean())
 
     submission_predictions = regressor.predict(dengue_features_test)
     submission_predictions = [round(x) for x in submission_predictions]
@@ -84,3 +92,5 @@ def create_submission(
     submissions_format['total_cases'] = submission_predictions
     save_to_path = submission_params["path"] + '/' + submission_params["name"]
     submissions_format.to_csv(save_to_path, sep=',', index=None)
+    logger = logging.getLogger(__name__)
+    logger.info(f"Saved submissions to {save_to_path}.")

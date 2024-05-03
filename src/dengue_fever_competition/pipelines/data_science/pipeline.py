@@ -2,13 +2,12 @@ from kedro.pipeline import Pipeline, node, pipeline
 
 from .nodes import split_data, train_model, evaluate_model, create_submission
 
-
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline(
         [
             node(
                 func=split_data,
-                inputs= ["dengue_features_train_encoded","params:model_options"],
+                inputs= ["dengue_features_train_encoded","dengue_labels_train", "params:model_options"],
                 outputs=["X_train", "X_val", "y_train", "y_val"],
                 name="split_data"
              ),

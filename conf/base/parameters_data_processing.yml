@@ -10,3 +10,6 @@ forwardfills:
   - 'ndvi_nw'
   - 'ndvi_se'
   - 'ndvi_sw'
+
+unused_columns:
+  - 'week_start_date'

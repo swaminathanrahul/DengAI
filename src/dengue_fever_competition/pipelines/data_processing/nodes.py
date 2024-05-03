@@ -2,35 +2,50 @@ import pandas as pd
 import category_encoders as ce
 import logging
 
-def _sort_dataframe(df_train: pd.DataFrame, sort_column: list) -> pd.DataFrame:
-    """
-    Something smart
-    """
-    return df_train.sort_values(by=sort_column)
+def _sort_dataframe(df: pd.DataFrame, sort_column: list) -> pd.DataFrame:
+    """Sorts the dataframe by columns in ``sort_column``
 
-def _remove_nulls(df_train: pd.DataFrame, ndvis: list) -> pd.DataFrame:
+     Args:
+         df: Dataframe
+         sort_column: List of column names to sort by
+     Returns:
+         DataFrame sorted by columns in ``sort_column``.
+     """
+    return df.sort_values(by=sort_column)
+
+def _drop_unused_columns(df: pd.DataFrame, columns_to_drop: list) -> pd.DataFrame:
+    """Drops unised columns from ``columns_to_drop``
+
+    Args:
+        df: Dataframe
+        columns_to_drop: List of column names to drop
+    """
+    df = df.drop(columns_to_drop, axis=1)
+    return df
+
+def _remove_nulls(df: pd.DataFrame, ndvis: list) -> pd.DataFrame:
     """
     Something smart
     """
     # replace missing vegetation pixels with previous week
     for ndvi in ndvis:
-        df_train[ndvi] = df_train[ndvi].fillna(method='ffill')
+        df[ndvi] = df[ndvi].fillna(method='ffill')
     
     # replace remaining numerical missing values with mean
-    float_columns = df_train.select_dtypes('float64').columns
+    float_columns = df.select_dtypes('float64').columns
     for col in float_columns:
-        df_train[col] = df_train[col].fillna(df_train[col].mean())
+        df[col] = df[col].fillna(df[col].mean())
     
-    return df_train
+    return df
 
-def _encode_features(df_train: pd.DataFrame, columns_to_encode: list) -> pd.DataFrame:
+def _encode_features(df: pd.DataFrame, columns_to_encode: list) -> pd.DataFrame:
     """
     Something smart
     """
-    ce_ohe = ce.OneHotEncoder(cols=[columns_to_encode])
-    df_train = ce_ohe.fit_transform(df_train)
+    ce_ohe = ce.OneHotEncoder(cols=columns_to_encode)
+    df = ce_ohe.fit_transform(df)
     
-    return df_train
+    return df
 
 # def _is_true(x: pd.Series) -> pd.Series:
 #     return x == "t"

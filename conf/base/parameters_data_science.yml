@@ -11,5 +11,5 @@ hyperparameters:
   random_state: 42
 
 submission:
-  path: ../../../../data/submissions
+  path: ../../../../data/07_model_output
   name: submission.csv

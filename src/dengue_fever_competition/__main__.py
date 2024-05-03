@@ -6,7 +6,7 @@ from pathlib import Path
 
 from kedro.framework.cli.utils import KedroCliError, load_entry_points
 from kedro.framework.project import configure_project
-
+from kedro.framework.startup import bootstrap_project
 
 def _find_run_command(package_name):
     try:
