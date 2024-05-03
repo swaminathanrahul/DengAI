@@ -1,4 +1,3 @@
-"""Complete Data Processing pipeline for the spaceflights tutorial"""
+"""Complete Data Processing pipeline for the DengAI competition"""
 
 from .pipeline import create_pipeline  # NOQA
-import category_encoders as ce

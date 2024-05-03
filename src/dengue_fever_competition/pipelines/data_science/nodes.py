@@ -5,8 +5,6 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
-import category_encoders as ce
-import pickle
 
 def split_data(df: pd.DataFrame, labels_train: pd.DataFrame, parameters: Dict) -> Tuple:
     """Splits data into features and targets training and test sets.
@@ -44,7 +42,6 @@ def train_model(X_train: pd.DataFrame, y_train: pd.Series, hyperparameters: Dict
         n_jobs=-1
     )
     regressor.fit(X_train, y_train.values.ravel())
-    pickle.dump(regressor, open('../../../../data/06_models/model.pkl','wb'))
     return regressor
 
 
@@ -71,8 +68,12 @@ def evaluate_model(
 def create_submission(
         regressor: RandomForestRegressor, submissions_format: pd.DataFrame, df: pd.DataFrame, submission_params: Dict
 ) -> None:
-    """
-    Something smart
+    """Creates a prediction with the fitted regressor.
+
+    Args:
+        regressor: Trained model.
+        submissions_format: CSV file 
+    
     """
 
     df_test = df.query("source == 'test'").drop(['source'],axis=1)
