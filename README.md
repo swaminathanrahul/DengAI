@@ -8,7 +8,32 @@ We used the Kedro framework for project structure and end-to-end implementation.
 
 Final submission score: ``24.57``
 
-![Alt text](images/best_score.jpg "a title")
+![Screenshot of our best score](images/best_score.jpg)
+
+## Try it out
+You can run this repository locally to test it out:
+1. Clone this repository into a local project folder: 
+    - ``git clone git@github.com:Lucamiras/DengAI.git``
+2. Create a new conda environment:
+    - ``conda create [YOUR ENVIRONMENT NAME] python=3.12``
+3. Activate your new environment:
+    - ``conda activate [YOUR ENVIRONMENT NAME]``
+4. Install dependencies:
+    - ``pip install -r requirements.txt``
+5. To run the full pipeline:
+    - ``kedro run --pipeline __default__``
+6. Once the pipeline has run, you can find the new predictions ``.csv`` in ``data/07_model_output``
+
+## Data exploration
+We plotted the development of total cases to get an intuition for features that impact number of cases:
+
+Looking at the distribution over time by city, we see spikes of outbreaks around the years '91, '94, '98, '05 and '08.
+
+![Graph of total cases](images/box_total_by_city.png)
+
+Looking at the most correlated feature, ``min_air_temperature_k`` readings seem to align with spikes in ``total_cases``.
+
+![Graph of total cases and temperature](images/line_min_air_temp.png)
 
 ## Feature engineering
 These choices led to the biggest improvement in score:
@@ -25,20 +50,6 @@ These choices led to the biggest improvement in score:
     - Data Science: Split data into X and y, train model, create submissions
 
 - **README.md**: Overview of the project, outcomes, and implementation notes (you're here!).
-
-## Try it out
-You can run this repository locally to test it out:
-1. Clone this repository into a local project folder: 
-    - ``git clone git@github.com:Lucamiras/DengAI.git``
-2. Create a new conda environment:
-    - ``conda create [YOUR ENVIRONMENT NAME] python=3.12``
-3. Activate your new environment:
-    - ``conda activate [YOUR ENVIRONMENT NAME]``
-4. Install dependencies:
-    - ``pip install -r requirements.txt``
-5. To run the full pipeline:
-    - ``kedro run --pipeline __default__``
-6. Once the pipeline has run, you can find the new predictions ``.csv`` in ``data/07_model_output``
 
 ## Noteworthy
 - In this project, we are training the model on the entire dataset. In a previous version we used train and validation sets, but found that our validation score was almost never reflecting a real submission score increase. Due to this and the time series nature of the problem, we chose to train the model on the whole dataset. Others may disagree with this and return to 
