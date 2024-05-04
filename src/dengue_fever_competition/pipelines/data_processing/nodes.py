@@ -17,7 +17,7 @@ def _merge_dataframes(df_train: pd.DataFrame, df_test: pd.DataFrame) -> pd.DataF
     df = pd.concat([df_train, df_test])
     return df
 
-def _create_rolling_averages(df: pd.DataFrame, rolling_cols: list, window: int = 2):
+def _create_rolling_averages(df: pd.DataFrame, rolling_cols: list, windows: list):
     """Taking the features most correlated with ``total_cases`` and creating rolling averages with a window of two.
     
     Args:  
@@ -28,8 +28,9 @@ def _create_rolling_averages(df: pd.DataFrame, rolling_cols: list, window: int =
     Returns:
         df: DataFrame with rolling averages.
     """
-    for col in rolling_cols:
-        df[col + '_rolling_' + str(window)] = df[col].rolling(window=window).mean()
+    for window in windows:
+        for col in rolling_cols:
+            df[col + '_rolling_' + str(window)] = df[col].rolling(window=window).mean()
 
     return df
 

@@ -19,7 +19,7 @@ def create_pipeline(**kwargs) -> Pipeline:
             ),
             node(
                 func=_create_rolling_averages,
-                inputs=["df_features_no_nulls","params:rolling_cols"],
+                inputs=["df_features_no_nulls","params:rolling_cols", "params:windows"],
                 outputs="df_features_rolling",
                 name="create_moving_averages"
             ),

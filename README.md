@@ -1,47 +1,44 @@
 # Dengue Fever Prediction
 
-This repository contains the code and models developed for the [Dengue Prediction competition](https://www.drivendata.org/competitions/44/dengai-predicting-disease-spread/page/80/) hosted on DrivenData. The goal of this competition is to predict the number of dengue fever cases each week in two cities: San Juan, Puerto Rico, and Iquitos, Peru.
+This repository contains the code and models developed for the [Dengue Prediction competition](https://www.drivendata.org/competitions/44/dengai-predicting-disease-spread/page/80/) hosted on [drivendata.org](https://www.drivendata.org). The goal of this competition is to **predict the number of dengue fever cases** each week in two cities: San Juan, Puerto Rico, and Iquitos, Peru.
+
+We used the Kedro framework for project structure and end-to-end implementation.
 
 ## Outcomes
 
-- Final submission score: 26.1
-- Explored and preprocessed the provided data to extract meaningful features.
-- Implemented and fine-tuned multiple machine learning models, including regression and time series forecasting algorithms.
-- Evaluated model performance using appropriate metrics such as Mean Absolute Error (MAE) to assess accuracy.
-- Submitted predictions to the DrivenData platform and achieved competitive results on the leaderboard.
+Final submission score: ``24.57``
 
-## Learnings
+![Alt text](images/best_score.jpg "a title")
 
-- Importance of feature engineering: Found that incorporating lag features and domain-specific transformations significantly improved model performance.
-- Model selection: Experimented with different algorithms such as Random Forest, Gradient Boosting, and LSTM to identify the most suitable approach for the task.
-- Dealing with imbalanced data: Employed techniques like oversampling and weighted loss functions to address the class imbalance present in the target variable.
-- Collaboration and knowledge sharing: Engaged with the community on forums and leveraged shared insights and strategies to enhance model development and performance.
+## Feature engineering
+These choices led to the biggest improvement in score:
+- Forward-filled missing values. Forward-fill seemed the best choice for time-series problems.
+- Implemented rolling averages of 2, 4 and 6 weeks respectively for 7 most correlated features, which allows the model to understand how time lag impacts case numbers.
+- Implemented cyclical encoding for ``weekofyear``.
 
 ## Repository Structure
+- **conf**: Contains Kedro config files.
+- **data**: Contains the raw datasets used in the project.
+- **images**: Images used in this notebooks, mainly data visualizations.
+- **src**: Python files for two Kedro pipelines:
+    - Data Processing: Handle null values, create rolling averages, encodings, dropping unused columns
+    - Data Science: Split data into X and y, train model, create submissions
 
-- data/: Contains the raw and processed datasets used in the project.
-- notebooks/: Jupyter notebooks documenting the data exploration, preprocessing, modeling, and evaluation stages.
-- src/: Python scripts for feature engineering, model training, and evaluation.
-- models/: Saved trained models for future use or deployment.
-- README.md: Overview of the project, outcomes, and learnings (you're here!).
+- **README.md**: Overview of the project, outcomes, and implementation notes (you're here!).
 
-## Requirements
+## Try it out
+You can run this repository locally to test it out:
+1. Clone this repository into a local project folder: 
+    - ``git clone git@github.com:Lucamiras/DengAI.git``
+2. Create a new conda environment:
+    - ``conda create [YOUR ENVIRONMENT NAME] python=3.12``
+3. Activate your new environment:
+    - ``conda activate [YOUR ENVIRONMENT NAME]``
+4. Install dependencies:
+    - ``pip install -r requirements.txt``
+5. To run the full pipeline:
+    - ``kedro run --pipeline __default__``
+6. Once the pipeline has run, you can find the new predictions ``.csv`` in ``data/07_model_output``
 
-- Python 3.12
-- Required packages listed in requirements.txt
-
-## Getting Started
-
-- Clone this repository: git clone https://github.com/your_username/dengue-prediction.git
-- Install dependencies: pip install -r requirements.
-- Navigate to the notebooks/ directory to explore the project in detail.
-- Refer to the notebooks and scripts for code implementation and model development.
-- For any inquiries or feedback, feel free to reach out to the repository owner.
-
-## Acknowledgments
-
-- DrivenData for hosting the Dengue Prediction competition.
-- Contributors and participants in the competition for valuable discussions and insights.
-- Open-source libraries and resources utilized in the project.
-
-Feel free to customize and expand upon this template as needed to reflect your specific contributions and experiences in the competition!
+## Noteworthy
+- In this project, we are training the model on the entire dataset. In a previous version we used train and validation sets, but found that our validation score was almost never reflecting a real submission score increase. Due to this and the time series nature of the problem, we chose to train the model on the whole dataset. Others may disagree with this and return to 

@@ -1,6 +1,6 @@
 from kedro.pipeline import Pipeline, node, pipeline
 
-from .nodes import split_data, train_model, create_submission
+from .nodes import split_data, train_model, create_submission, find_best_hyperparameters
 
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline(
@@ -11,6 +11,12 @@ def create_pipeline(**kwargs) -> Pipeline:
                 outputs=["X","y"],
                 name="split_data_into_X_and_y"
              ),
+            # node(
+            #     func=find_best_hyperparameters,
+            #     inputs=["X","y"],
+            #     outputs="best_hyperparameters",
+            #     name="find_best_hyperparameters"
+            # ),
             node(
                   func=train_model,
                   inputs=["X", "y", "params:hyperparameters"],

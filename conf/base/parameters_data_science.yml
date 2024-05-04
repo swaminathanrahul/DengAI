@@ -3,6 +3,7 @@ split_options:
     - total_cases
 
 hyperparameters:
-  max_depth: 5
-  n_estimators: 200
+  max_depth: 10
+  n_estimators: 500
   random_state: 42
+  min_sample_split: 5

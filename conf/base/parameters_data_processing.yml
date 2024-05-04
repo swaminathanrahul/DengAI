@@ -18,3 +18,8 @@ rolling_cols:
   - 'reanalysis_dew_point_temp_k'
   - 'reanalysis_specific_humidity_g_per_kg'
   - 'station_avg_temp_c'
+
+windows:
+  - 2
+  - 4
+  - 6

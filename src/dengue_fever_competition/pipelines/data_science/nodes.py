@@ -1,11 +1,9 @@
+import pandas as pd
 import logging
 from typing import Dict, Tuple
-
-import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import train_test_split, GridSearchCV
 
 def split_data(df: pd.DataFrame, labels_train: pd.DataFrame, parameters: Dict) -> Tuple:
     """Splits data into features and targets training and test sets.
@@ -21,6 +19,51 @@ def split_data(df: pd.DataFrame, labels_train: pd.DataFrame, parameters: Dict) -
     y = labels_train.loc[:, parameters["target"]]
 
     return X, y
+
+def find_best_hyperparameters(X, y) -> Dict:
+    """Performs CV grid search to find best hyperparameters.
+    
+    Args:
+        X: Training data of independent features.
+        y: Training target.
+
+    Returns:
+        Dictionary with best hyperparameters found in grid search.
+    """
+
+    X_train, X_test, y_train, y_test = train_test_split(X, 
+                                                        y, 
+                                                        test_size=0.2, 
+                                                        random_state=42)
+
+    rf = RandomForestRegressor()
+
+    param_grid = {
+        'n_estimators': [50, 100, 200],
+        'max_depth': [None, 10, 20],
+        'min_samples_split': [2, 5, 10],
+        'min_samples_leaf': [1, 2, 4]
+    }
+
+    grid_search = GridSearchCV(estimator=rf, 
+                               param_grid=param_grid, 
+                               cv=5, 
+                               scoring='neg_mean_absolute_error',
+                               verbose=3,
+                               n_jobs=-1)
+    
+    grid_search.fit(X_train, y_train.values.ravel())
+
+    print("Best parameters found by GridSearchCV:")
+    print(grid_search.best_params_)
+
+    best_rf_model = grid_search.best_estimator_
+    predictions = best_rf_model.predict(X_test)
+
+    mae = mean_absolute_error(y_test, predictions)
+    print("Mean Absolute Error on test set:", mae)
+    return grid_search.best_params_
+
 
 def train_model(X: pd.DataFrame, y: pd.Series, hyperparameters: Dict) -> RandomForestRegressor:
     """Trains the Random Forest Regressor on training data.
