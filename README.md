@@ -6,7 +6,8 @@ We used the open-source [Kedro](https://kedro.org/) framework for project struct
 
 ## Outcomes
 
-**Final submission score: ``24.57``**
+**Final submission score: ``24.55 ``**
+**Final submission rank: ``940``**
 
 ![Screenshot of our best score](images/best_score.jpg)
 
@@ -68,6 +69,7 @@ These choices led to the biggest improvement in score:
 - Since mosquito infestations are correlated temporally (in the future) with past rainfall and temperature rises, we use a rolling window approach to encode the past as new features.
 - For this we implemented rolling averages of 2, 4 and 6 weeks into the past respectively for many temperature, humidity and precipitation related features.  This allows the model to understand how time lag impacts new cases.
 - The variables we implemented rolling averages in this version are:
+  - 'reanalysis_tdtr_k'
   - 'reanalysis_min_air_temp_k'
   - 'station_min_temp_c'
   - 'reanalysis_air_temp_k'
